@@ -14,6 +14,24 @@
 
 >  对于extends的引用路径，如果传入的路径前面没有”./“，'../'(如：test/abc)，是按照项目的根路径进行查找的，如果传入的是"./"，”../“(如：./test/abc)，那么就是根据相对路径查找的，当然了如果你传了”/“(如：/test/abc)，那么不好意思这是从系统更路径开始查找的
 
+4. 模板如果需要传入渲染数据，要在loader中以data参数传入，每个模板对应的数据以模板的绝对路径为key值
+```
+    var MutiHtmlWebpackPlugin = require('./index.js');
 
-## 说明
-> 在webpack中解析模板，主要用的还是模板继承的特性，目前没有注入data的方式
+    //以绝对路径作为key传值
+    var key = path.resolve(__dirname, 'test/views/index.html');
+    var data = {};
+    data[key] = {
+        world: 'hello world'
+    };
+    data = JSON.stringify(data);
+
+    //这是一个处理多html模板的插件，传入loader的方式与配置项的loader类似
+    new MutiHtmlWebpackPlugin({
+        templatePath: 'test/views/',
+        loader: 'html?attrs=img:src img:data-src!compile-nunjucks?data=' + data,
+        templateSuffix: '.html',
+        path: '/views',
+        ignore: ['demo.html', 'abc/abc.html']
+    })
+```
