@@ -3,6 +3,11 @@
 var nunjucks = require('nunjucks');
 var path = require('path');
 
+function getQueryString(self, name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var r = self.query.substr(1).match(reg);
+    if (r != null) return unescape(r[2]); return null;
+}
 
 
 module.exports = function(source) {
@@ -27,9 +32,21 @@ module.exports = function(source) {
     });
 
     try {
-        return nunjucks.renderString(source, {});
+
+        var key = self['resourcePath'];
+        var data = getQueryString(self, 'data');
+        var renderData = {};
+
+        if(data) {
+            data = JSON.parse(data);
+            if(data[key]) {
+                renderData = data[key];
+            }
+        }
+
+        return nunjucks.renderString(source, renderData);
     } catch(e) {
-         console.error("nunjucks插件:" + e);
+         console.error("nunjucks-loader:" + e);
          throw e;
     }
 }
