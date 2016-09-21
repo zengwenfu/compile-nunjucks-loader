@@ -35,3 +35,4 @@
         ignore: ['demo.html', 'abc/abc.html']
     })
 ```
+![](https://nodei.co/npm/compile-nunjucks-loader.png)
