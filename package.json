@@ -1,6 +1,6 @@
 {
   "name": "compile-nunjucks-loader",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "compile nunjucks",
   "main": "index.js",
   "scripts": {
