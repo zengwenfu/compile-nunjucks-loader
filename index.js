@@ -11,7 +11,7 @@ function getQueryString(self, name) {
 
 
 module.exports = function(source) {
-
+    this.cacheable && this.cacheable();
     var self = this;
 
     //替换成绝对路径
